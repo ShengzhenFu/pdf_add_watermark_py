@@ -29,10 +29,10 @@ def main():
     mywatermark = 'D:\\study\\python_code\\watermark.pdf'
 
     #原始pdf的名称
-    origFileName = 'D:\\study\\python_code\\Nginx教程从入门到精通.pdf'
+    origFileName = 'D:\\study\\python_code\\example.pdf'
 
     #合并后新的pdf名称
-    newFileName = 'Nginx教程从入门到精通_watermark_PyPDF2.pdf'
+    newFileName = 'example_watermark.pdf'
 
     #打开原始的pdf文件,获取文件指针
     pdfFileObj = open(origFileName,'rb')
@@ -42,6 +42,8 @@ def main():
 
     #创建一个指向新的pdf文件的指针
     pdfWriter = PyPDF2.PdfFileWriter()
+
+    print('begin to add water mark to file', origFileName)
 
     #通过迭代将水印添加到原始pdf的每一页
     for page in range(pdfReader.numPages):
@@ -58,6 +60,8 @@ def main():
     #关闭原始和新的pdf
     pdfFileObj.close()
     newFile.close()
+    print('completed add water mark to new file', newFileName)
 
 
-main()
+if __name__=='__main__':
+    main()
