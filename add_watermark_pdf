@@ -1,7 +1,7 @@
 import PyPDF2
 
 def get_content_from_pdf():
-    filename= 'D:\\study\\python_code\\Nginx教程从入门到精通.pdf'
+    filename= 'D:\\study\\python_code\\example.pdf'
     pdfFile = open(filename, 'rb')
     pdfReader = PyPDF2.PdfFileReader(pdfFile)
     print('this pdf has', pdfReader.numPages, 'pages')
@@ -11,13 +11,13 @@ def get_content_from_pdf():
 
 
 def add_watermark(wmFile,pageObj):
-    #打开水印pdf文件
+    #open watermark pdf file
     wmFileObj = open(wmFile,'rb')
     
-    #创建pdfReader对象，把打开的水印pdf传入
+    #create pdfReader, pass watermark pdf to it
     pdfReader = PyPDF2.PdfFileReader(wmFileObj)
     
-    #将水印pdf的首页与传入的原始pdf的页进行合并
+    # merge origin pdf and watermark pdf
     pageObj.mergePage(pdfReader.getPage(0))
 
     wmFileObj.close()
@@ -25,39 +25,39 @@ def add_watermark(wmFile,pageObj):
 
 def main():
     
-    #水印pdf的名称
+    # water mark pdf file 
     mywatermark = 'D:\\study\\python_code\\watermark.pdf'
 
-    #原始pdf的名称
+    # origin pdf file
     origFileName = 'D:\\study\\python_code\\example.pdf'
 
-    #合并后新的pdf名称
+    # new file output
     newFileName = 'example_watermark.pdf'
 
-    #打开原始的pdf文件,获取文件指针
+    # open origin pdf
     pdfFileObj = open(origFileName,'rb')
 
-    #创建reader对象
+    # create pdfReader
     pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
 
-    #创建一个指向新的pdf文件的指针
+    # create pdfWriter
     pdfWriter = PyPDF2.PdfFileWriter()
 
     print('begin to add water mark to file', origFileName)
 
-    #通过迭代将水印添加到原始pdf的每一页
+    # iterate all pages and add watermark
     for page in range(pdfReader.numPages):
         wmPageObj = add_watermark(mywatermark,pdfReader.getPage(page))
         
-        #将合并后的即添加了水印的page对象添加到pdfWriter
+        # write new pages to new file
         pdfWriter.addPage(wmPageObj)
 
-    #打开新的pdf文件
+    # open new file
     newFile = open(newFileName,'wb')
-    #将已经添加完水印的pdfWriter对象写入文件
+    # write new file
     pdfWriter.write(newFile)
 
-    #关闭原始和新的pdf
+    # close origin and new file
     pdfFileObj.close()
     newFile.close()
     print('completed add water mark to new file', newFileName)
